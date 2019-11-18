@@ -36,11 +36,17 @@ https://blog.indrek.io/articles/whats-new-in-java-9-streams/
 
 
 Stream API Improvement
+
 -- Are we using multi core machine
+
 -- java.util.concurrent + ThreadpoolExecutors
+
 -- External Vs Internal iteration : Word Doc
+
    Remove boilerplate code
+   
    It’s also hard to write a parallel version of this for loop
+   
    doesn’t fluently convey the intent of the programmer
 
 ```
@@ -69,22 +75,24 @@ Stream API Improvement
 ```   
 
 -- Needs executable functions
+
 -- Object Oriented Vs Functional programming
+
    Function can exist on its own and it is first class, it can assignable to variable
    Object Oriented gives importance to state/properties, need to instantiate object to use.
 
 
-FunctionInterface func = function (){
+      FunctionInterface func = function (){
 
-}
+      }
 
--- Lambda Expression : a method without name
-    button.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent event) {
-                    System.out.println("button clicked");
-                }
-        }
-    );
+      -- Lambda Expression : a method without name
+          button.addActionListener(new ActionListener() {
+              public void actionPerformed(ActionEvent event) {
+                          System.out.println("button clicked");
+                      }
+              }
+          );
 
     TO
     button.addActionListener(event -> System.out.println("button clicked"));
@@ -94,17 +102,22 @@ FunctionInterface func = function (){
     BinaryOperator<Long> addExplicit = (Long x, Long y) -> x + y;
 
 
-var l = String();
-
+    var l = String();
 
 
 -- Lambda Expression is not anonymous inner class :: BloatedClass: InvokeDynamic:Function pointers
+
 -- Functional Interface :: Why it is needed
-    -- Needed for type checking
-    -- Statically typing Vs Dynamic Typing
-    -- Why it has only one method
-       -- Type Inference -> target type | return type | type of arguments
-       Method reference can't be used for any method. They can only be used to replace a single-method lambda expression.
+
+  -- Needed for type checking
+  
+  -- Statically typing Vs Dynamic Typing
+  
+  -- Why it has only one method
+  
+   -- Type Inference -> target type | return type | type of arguments
+   
+   Method reference can't be used for any method. They can only be used to replace a single-method lambda expression.
 
        public  int number = 10;
        Consumer<String> c = s -> {System.out.println(number); number = 12};
@@ -129,6 +142,7 @@ var l = String();
      }
 
 -- Lambda expression should be cute
+
 -- Method Reference
 
 
