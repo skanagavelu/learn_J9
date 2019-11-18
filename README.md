@@ -34,6 +34,7 @@ takeWhile/dropWhile
 https://blog.indrek.io/articles/whats-new-in-java-9-streams/
 
 
+
 Stream API Improvement
 -- Are we using multi core machine
 -- java.util.concurrent + ThreadpoolExecutors
@@ -42,6 +43,7 @@ Stream API Improvement
    It’s also hard to write a parallel version of this for loop
    doesn’t fluently convey the intent of the programmer
 
+```
    public Set<String> findLongTracks(List<Album> albums) {
          Set<String> trackNames = new HashSet<>();
          for(Album album : albums) {
@@ -64,6 +66,7 @@ Stream API Improvement
                     .map(track -> track.getName())
                     .collect(toSet());
    }
+```   
 
 -- Needs executable functions
 -- Object Oriented Vs Functional programming
@@ -120,10 +123,10 @@ var l = String();
        }
     }
 
--- Stream :: is lazy or eager? (limit | findFirst)
-for(Sex s : List<Sex>) {
+    -- Stream :: is lazy or eager? (limit | findFirst)
+     for(Sex s : List<Sex>) {
 
-}
+     }
 
 -- Lambda expression should be cute
 -- Method Reference
@@ -149,64 +152,46 @@ for(Sex s : List<Sex>) {
             4) Supplier<List<String>> s = ArrayList::new;
               List<String> l = s.get();
 
+
    https://www.codementor.io/eh3rrera/using-java-8-method-reference-du10866vx
+   
 -- Exception handling
     https://dzone.com/articles/how-to-handle-checked-exception-in-lambda-expressi
 -- Data parallelism Vs Task parallelism (Same operation over collection)
+
 -- Will parallel stream creates thread pool every time?
     https://dzone.com/articles/common-fork-join-pool-and-streams
-    ForkJoinPool commonpool
+    
+ForkJoinPool commonpool
 -- parallel stream is thread safe? interference -> ConcurrentModificationException.
 https://stackoverflow.com/questions/39093178/java-8-parallelstream-fill-arraylist
 https://docs.oracle.com/javase/tutorial/collections/streams/parallelism.html#interference
+
 -- The five main factors influencing performance are the data size, the source data structure, whether the values are packed, the number of available cores, and how much processing time is spent on each element.
+
 -- Is it parallel stream thread safe?
 https://www.techiedelight.com/remove-elements-list-satisfies-predicate-java/
+
 -- Beware of non-deterministic stateful lambda
 https://www.codesd.com/item/what-is-the-difference-between-a-stateful-and-stateless-lambda-expression.html
 https://docs.oracle.com/javase/tutorial/collections/streams/parallelism.html#stateful_lambda_expressions
 
 -- Benefits of Lambda
 
-1)
-Logger logger = new Logger();
-if (logger.isDebugEnabled()) {
-    logger.debug("Look at this: " + expensiveOperation());
-}
+      1)
+      Logger logger = new Logger();
+      if (logger.isDebugEnabled()) {
+          logger.debug("Look at this: " + expensiveOperation());
+      }
 
-Logger logger = new Logger();
-logger.debug(() -> "Look at this: " + expensiveOperation());
+      Logger logger = new Logger();
+      logger.debug(() -> "Look at this: " + expensiveOperation());
 
-public void debug(Supplier<String> message) {
-        if (isDebugEnabled()) {
-            debug(message.get());
-        }
-}
-
-
-2)
- Cache :: Get
- {
-   ClassificationModel model = new ClassificationModel(language.getLanguage(), classificationModelType);
-   if (null == taggersInstanceCache.get(model)) {
-       synchronized (taggersInstanceCache) {
-           if (null == taggersInstanceCache.get(model)) {
-               String libraryBeanName = environment.getProperty("token-classification.tagger.library." +
-                               classificationModelType.getName(),
-                               String.class,
-                               "malletAnnotationSetTaggerBuilder");
-               AnnotationSetTaggerBuilder builder = applicationContext.getBean(libraryBeanName,
-                                              AnnotationSetTaggerBuilder.class);
-               taggersInstanceCache.putIfAbsent(model, builder.buildAnnotationSetTagger(model));
-               return taggersInstanceCache.get(model);
-           }
-       }
-   }
-   return taggersInstanceCache.get(model);
-}
-
-
-return taggers.computeIfAbsent(descriptor, ClassificationModel::model);
+      public void debug(Supplier<String> message) {
+              if (isDebugEnabled()) {
+                  debug(message.get());
+              }
+      }
 
 
 ifPresentOrElse({->}, {->})
