@@ -1,0 +1,231 @@
+Java SE 9: Jigsaw Project
+--------------------------
+Jigsaw project is a new concept of Java SE 9: Java Module System.
+
+It is very big and prestigious project from Oracle Corp in Java SE 9 release. Initially, they have started this project as part of Java SE 7 Release. However, with huge changes, it’s postponed to Java SE 8 then again postponed. Now it is about to release with Java SE 9 in September 2017.
+
+
+Courtesy:
+----------
+https://www.journaldev.com/13543/javase9-simple-module-cmd-prompt-part3
+
+
+Problems of Current Java System?
+---------------------------------
+Java SE 8 or earlier systems have following problems in developing or delivering Java Based applications.
+
+1. As JDK is too big, it is a bit tough to scale down to small devices.
+   Java SE 8 has introduced 3 types of compact profiles to solve this problem: compact1, compact2, and compact3.
+   But it does not solve this problem.
+2. JAR files like rt.jar etc are too big to use in small devices and applications.
+3. As JDK is too big, our applications or devices are not able to support better Performance.
+4. There is no Strong Encapsulation in the current Java System because “public” access modifier is too open. Everyone can access it.
+5. As JDK, JRE is too big, it is hard to Test and Maintain applications.
+6. As the public is too open, They are not to avoid the accessing of some Internal Non-Critical APIs like sun.*, *.internal.* etc.
+7. As User can access Internal APIs too, Security is also big issue.
+8. Application is too big.
+9. Its a bit tough to support Less Coupling between components.
+
+To solve all these problems, Oracle Corp is going to release Java Module system in Java SE 9 Release.
+
+
+Compare JDK 8 and JDK 9:
+-------------------------
+JDK 9 does NOT contain JRE. In JDK 9
+In JDK 9, No rt.jar and No tools.jar
+JDK 9 software contains a new folder “jmods”. It contains a set of Java 9 Modules.
+As of today, “jmods” contains 95 modules. It may increase.
+“jmods” folder is available at ${JAVA_HOME}/jmods. These are known as JDK Modules.
+
+
+Compare Java 8 and Java 9 Applications:
+----------------------------------------
+Java 8: Top level component a Package. It groups a set related to types into a group. It also contains a set of resources.
+Java 9: It just introduced a new component called “Module”, which is used to group a set of related Packages into a group. And one more new component that Module Descriptor (“module-info.java”). That’s it.
+
+
+What is Java 9 Module: (Similar to JAR)
+-----------------------
+A Java Module is a mechanism to package up your Java application and Java packages into Java modules. A Java module can specify which of the Java packages it contains that should be visible to other Java modules using this module.
+
+A Module is a self-describing collection of Code, Data, and some Resources. It is a set of related Packages, Types (classes, abstract classes, interfaces etc) with Code & Data and Resources.
+
+Each Module contains only a set of related code and data to support Single Responsibility (Functionality) Principle (SRP).
+
+
+Java 9 Module System:
+---------------------
+Oracle Corp has separated JDK jars and Java SE Specifications into two set of Modules.
+
+All JDK Modules starts with “jdk.*”
+All Java SE Specifications Modules starts with “java.*”
+Java 9 Module System has a “java.base” Module. It’s known as Base Module. It’s an Independent module and does NOT dependent on any other modules. By default, all other Modules dependent on this module.
+
+That’s why “java.base” Module is also known as The Mother of Java 9 Modules.
+It’s default module for all JDK Modules and User-Defined Modules.
+
+
+
+Java 9 Module Basics & Rules:
+-----------------------------
+Each module has a unique Name as Modules live in a global space in JVM.
+For example:-
+We are going to develop modules for www.journaldev.com, then you can use “com.journaldev.mod1” as your first module name, then “com.journaldev.mod2” and so on.
+
+Each module has some description in a source file.
+A Module description is expressed in a source file called “module-info.java”.
+As “module-info.java” file describes a Module, it is also known as “Module Descriptor”.
+A Module Descriptor is a Java file. It is not an XML, Text file or Properties file.
+By convention, we should use same name “module-info.java” for Module Descriptor.
+By convention, Module Descriptor file is placed in the top level directory of a Module.
+    For example:-
+    If We are going to develop “com.journaldev.mod1” module, then we should place our Module Descriptor under “com.journaldev.mod1” name.
+Each Module can have any number of Packages and Types.
+We can create our own modules.
+One Module can dependent on any number of modules.
+Each Module should have one and only one Module Descriptor (“module-info.java”).
+
+
+Transitive dependency
+https://stackoverflow.com/questions/35688995/will-cyclic-module-dependencies-be-possible-in-java-9
+
+
+
+Module Descriptor:
+-------------------
+Module Descriptor is a resource, which contains Module Meta Data.
+Like other Java source files, a Module file is compiled into “module-info.class” using javac command.
+
+e.g.)
+module com.journaldev.mod1 {
+   exports com.journaldev.services;
+}
+“exports” clause to export a package(s) to outside world or to other Modules.
+It is not mandatory to export all packages. It’s up-to the Module Owner to decide which one to export and which one not.
+A Module Descriptor can have zero, one or more exports clause.
+
+
+module com.journaldev.mod2 {
+   requires com.journaldev.services;
+}
+“requires” clause to import other Module’s packages.
+A Module Descriptor can have zero, one or more requires clause.
+
+“module”, “requires”, and “exports” are Contextual Keywords” only. That means they are keywords only with a Module Descriptor (“module-info.java”) file.
+
+
+ClassPath Vs ModulePath:
+------------------------
+A ClassPath is a sequence of classes and packages (or JARs) which are user-defined classes and built-in classes. JVM or Java Compiler requires this to compile the application or classes.
+
+A ModulePath is a sequence of Modules (which are provided in a Folder format or JAR format). If a Module is in folder format, that means its in Exploded Module format. If its in a JAR format, that jar is know as “Modular JAR“.
+
+When we create Java 9 Module project in Eclipse IDE or any IDE, IDE adds lots of JDK Modules into our Project MODULEPATH.
+
+From Java 9 on-wards, We refer MODULEPATH instead of CLASSPATH. Of course, Java 9 supports both MODULEPATH and CLASSPATH.
+
+
+
+Introduction to “HelloWorld” Module
+------------------------------------
+we are going to develop the following two modules:
+com.hello
+com.hello.client
+
+So first create two java projects with the above name.
+Renamed src folder to "src.main.java" ---> This is not required
+create module-info.java inside that folder.
+create new package with name com.hello OR com.hello.client based on your project.
+Now keep the code as per the project.
+Eclipse add module path of com.hello inside com.hello.client project.
+
+
+com.hello module develops “HelloWorld” component.
+com.hello module exports com.hello package to outside world.
+com.hello.client module requires or imports com.hello module.
+com.hello.client module uses “HelloWorld” component.
+
+
+
+
+jlink:
+------
+jlink is a tool that generates a custom Java runtime image that contains only the platform modules that are required for a given application. Such a runtime image acts exactly like the JRE but contains only the modules we picked and the dependencies they need to function.
+
+jdeps command to get the dependent modules used in the application:
+jdeps --module-path mlib --module com.hello.client
+
+
+
+Creating a Custom JRE with jlink:
+---------------------------------
+/Library/Java/JavaVirtualMachines/jdk-11.0.5.jdk/Contents/Home/bin/jlink --module-path "%JAVA_HOME%\jmods":mlib --add-modules com.hello --output customjre
+
+customjre/bin/java --module-path ../../mlib --module com.hello.client
+
+du -sh jre
+du -sh jre/lib/rt.jar
+
+
+
+Advantages of Java SE 9 Module System
+--------------------------------------
+1. As Java SE 9 is going to divide JDK, JRE, JARs etc, into smaller modules, we can use whatever modules we want.
+   So it is very easy to scale down the Java Application to Small devices. A smaller Java environment would require less compute resources, thus opening up a new domain of devices previously thought to be too humble for Java.
+2. A smaller runtime environment could be better optimized for performance and start up time.
+   Supports better Performance.
+3. Ease of Testing and Maintainability.
+4. As public is not just public, it supports very Strong Encapsulation.
+5. We cannot access Internal Non-Critical APIs anymore.
+6. Modules can hide unwanted and internal details very safely, we can get better Security.
+7. Application is too small because we can use only what ever modules we want.
+8. Its easy to support Less Coupling between components.
+9. Its easy to support Single Responsibility Principle (SRP).
+
+
+
+
+References:
+-----------
+Java 9 Modules - Creating Services and Service Providers
+https://www.logicbig.com/tutorials/core-java-tutorial/modules/services.html
+https://docs.oracle.com/javase/9/docs/api/java/lang/module/ModuleDescriptor.html#version--
+http://openjdk.java.net/projects/jigsaw/
+https://www.journaldev.com/13543/javase9-simple-module-cmd-prompt-part3
+https://blog.codefx.org/java/java-module-system-tutorial/
+http://tutorials.jenkov.com/java/modules.html#services
+https://www.logicbig.com/tutorials/core-java-tutorial/modules/services.html
+https://stackoverflow.com/questions/46513903/what-is-the-difference-between-modules-and-jar-files
+https://www.journaldev.com/13106/java-9-modules
+http://openjdk.java.net/projects/jigsaw/
+https://dzone.com/articles/java-9-modules-introduction-part-1
+https://www.baeldung.com/java-9-modularity
+https://dzone.com/articles/jlink-in-java-9
+https://openjdk.java.net/jeps/282
+https://stackoverflow.com/questions/46513903/what-is-the-difference-between-modules-and-jar-files
+https://stackoverflow.com/questions/52561855/apache-tomcat-and-java-11/53815423#53815423
+https://adoptopenjdk.net/about.html
+https://stackoverflow.com/questions/53111921/how-to-get-java-11-run-time-environment-working-since-there-is-no-more-jre-11-fo
+https://stackoverflow.com/questions/52584888/how-to-use-jdk-without-jre-in-java-11/52586617
+https://stackoverflow.com/questions/53111921/how-to-get-java-11-run-time-environment-working-since-there-is-no-more-jre-11-fo
+https://docs.oracle.com/en/java/javase/11/migrate/index.html#JSMIG-GUID-954372A5-5954-4075-A1AF-6A9168371246
+https://jboss-modules.github.io/jboss-modules/manual/
+
+
+
+Java 8 Compact Profiles:
+The EJDK (Embedded Java Development Kit) was introduced by Oracle to solve the problem of providing binaries for all the available embedded platforms.
+
+https://www.oracle.com/technetwork/java/embedded/resources/tech/compact-profiles-overview-2157132.html
+https://www.youtube.com/watch?v=TCaBno_Euqk&feature=youtu.be
+https://blogs.oracle.com/jtc/an-introduction-to-java-8-compact-profiles
+https://www.baeldung.com/jrecreate
+https://www.oracle.com/technetwork/java/embedded/resources/tech/compact-profiles-overview-2157132.html
+https://stackoverflow.com/questions/27633308/what-is-the-meaning-of-profile-compact1-compact2-compact-3-in-java-api-docum
+https://www.oracle.com/technical-resources/articles/java/architect-profiles.html
+https://dzone.com/articles/jlink-in-java-9
+
+
+
+
+
